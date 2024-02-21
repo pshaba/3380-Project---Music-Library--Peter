@@ -11,6 +11,6 @@ Current State of the project:
 Contact Information:
 Ileana: ileanap123@gmail.com
 Joseph
-Murtaza
+Murtaza: tayabalimur@outlook.com
 Barton
 Peter
