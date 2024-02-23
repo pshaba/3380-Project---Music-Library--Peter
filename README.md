@@ -12,5 +12,5 @@ Contact Information:
 Ileana: ileanap123@gmail.com
 Joseph
 Murtaza: tayabalimur@outlook.com
-Barton
+Barton: bartonyu01@gmail.com
 Peter: petershababladez@gmail.com
