@@ -21,4 +21,7 @@ CREATE TABLE IF NOT EXISTS Online_Music_Library.listener (
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
+-- Constraints in other tables --
+
+-- Artist: inherits artist_id from listener_id, 1:1 relationship
 
