@@ -1,0 +1,19 @@
+{
+  "name": "olm_node",
+  "version": "1.0.0",
+  "description": "Node application for Online_Music_Library database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyilly/3380-Project---Music-Library.git"
+  },
+  "author": "Joseph Reisdorf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heyilly/3380-Project---Music-Library/issues"
+  },
+  "homepage": "https://github.com/heyilly/3380-Project---Music-Library#readme"
+}
