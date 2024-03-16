@@ -3,6 +3,7 @@
 
 import express from "express"; 
 import mysql from "mysql";
+import cors from "cors";
 
 const app = express();
 
@@ -16,6 +17,7 @@ const db = mysql.createConnection({
 });
 
 app.use(express.json());
+app.use(cors());
 
 // Will be where we start direction routes
 app.get("/", (req, res) => {
@@ -38,9 +40,20 @@ app.get("/persons", (req, res) => {
 
 app.post("/persons", (req, res) => {
     console.log("Responding to POST /persons")
-    const q = "INSERT INTO person (person_first_name, person_middle_inital, person_last_name, person_email, person_birthdate, person_hashed_password, person_address) VALUES (?)";
 
-    db.query(q, [], (err, data) => {
+    const values = [
+        req.body.first_name,
+        req.body.middle_initial,
+        req.body.last_name,
+        req.body.email,
+        req.body.birthdate,
+        req.body.password,
+        req.body.address
+    ]
+
+    const q = "INSERT INTO person (person_first_name, person_middle_initial, person_last_name, person_email, person_birthdate, person_hashed_password, person_address) VALUES (?)";
+
+    db.query(q, [values], (err, data) => {
         if (err) throw err;
 
         res.json(data);

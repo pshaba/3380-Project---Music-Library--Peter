@@ -14,7 +14,7 @@ export default function App() {
       
       <Routes>
         <Route path="/" element={<Root />} />
-        <Route path="/debug-database" element={<DebugDatabase />} />
+        <Route path="/debug-database/*" element={<DebugDatabase />} />
   
       </Routes>
     
