@@ -19,7 +19,7 @@ body {
     display: flex;
     background-color: #04192E;
     flex-direction: column;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Helvetica', sans-serif;
     font-size: 16px;
     color : #13A813;
 }
