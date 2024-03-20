@@ -4,20 +4,33 @@
 import express from "express"; 
 import mysql from "mysql";
 import cors from "cors";
+import artistRoutes from "./back_routes/Artist.mjs"
+import albumRoutes from "./back_routes/Album.mjs"
+import findByArtistRoutes from "./back_routes/findByArtist.mjs"
 
 const app = express();
 
-const db = mysql.createConnection({
+export const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     port: 3306,
-    password: "X9f3ph$q",
-    database: "Online_Music_Library"
+    password: "Team4-3380:",
+    database: "online_music_library"
 
 });
 
+
 app.use(express.json());
-app.use(cors());
+app.use(
+    cors({
+      origin: "http://localhost:3000",
+    })
+  );
+
+app.use("/back_end/Artist", artistRoutes)
+app.use("/back_end/Album", albumRoutes)
+app.use('/back_end/Album/findByArtist', findByArtistRoutes);
+
 
 // Will be where we start direction routes
 app.get("/", (req, res) => {
@@ -61,8 +74,8 @@ app.post("/persons", (req, res) => {
 });
 
 
-
 app.listen(8080, () => {
     console.log("We stan Uma!");
     console.log("Server is running on port 8080");
 });
+
