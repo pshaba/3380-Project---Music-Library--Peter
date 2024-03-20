@@ -1,24 +1,20 @@
-
-
-
-
 -- -----------------------------------------------------
 -- Table `Online_Music_Library`.`listener`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Online_Music_Library.listener (
   listener_id 				INT 		NOT NULL,
   listener_username 		VARCHAR(45) NOT NULL,
-  listener_is_artist 		TINYINT(1) 	NOT NULL,
-  listener_online_status	TINYINT(1) 	NOT NULL,
-  listener_pfp				BLOB		NULL,
+  listener_is_artist 		BOOLEAN 	NOT NULL,
+  listener_online_status	BOOLEAN 	NOT NULL,
+-- listener_pfp				BLOB		NULL, might add back later
   
   PRIMARY KEY (listener_id),
   
   CONSTRAINT listener_id_constraint
     FOREIGN KEY (listener_id)
-    REFERENCES Online_Music_Library.person (id)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
+    REFERENCES Online_Music_Library.person (person_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 -- Constraints in other tables --

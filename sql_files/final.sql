@@ -107,12 +107,13 @@ CREATE TABLE IF NOT EXISTS Online_Music_Library.track (
   track_id 					INT 		NOT NULL 	AUTO_INCREMENT,
   track_primary_artist_id 	INT 		NOT NULL,
   track_name				VARCHAR(50) NOT NULL,
-  track_release_date 		VARCHAR(45) NOT NULL,
+  track_release_date 		TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
   track_file 				BLOB NOT 	NULL,
-  genre 					SMALLINT 	NULL,
+  track_genre 					INT 	NULL,
   
   PRIMARY KEY (track_id, track_primary_artist_id))
 ENGINE = InnoDB;
+
 
 CREATE TABLE IF NOT EXISTS Online_Music_Library.genre (
     genre_id 		INT 			AUTO_INCREMENT,
@@ -121,15 +122,16 @@ CREATE TABLE IF NOT EXISTS Online_Music_Library.genre (
     PRIMARY KEY (genre_id))
 ENGINE = InnoDB;
 
+
 -- -----------------------------------------------------
 -- Table `Online_Music_Library`.`album`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`album` (
   `album_id` 				INT NOT NULL AUTO_INCREMENT,
   `album_primary_artist_id` INT NOT NULL,
   `album_title` 			VARCHAR(80) NOT NULL,
-  `album_creation_date` 	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `album_release_date` 		DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `album_release_date` 		TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `album_description` 		TEXT	 NULL,
   `album_cover_art` BLOB NULL,
   `album_genre` INT NOT NULL,
@@ -168,6 +170,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `Online_Music_Library`.`playlist`
 -- -----------------------------------------------------
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`playlist` (
   `playlist_id` INT NOT NULL AUTO_INCREMENT,
   `playlist_listener_id` INT NOT NULL,
@@ -181,44 +184,69 @@ CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`playlist` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+=======
+CREATE TABLE IF NOT EXISTS Online_Music_Library.playlist (
+  playlist_id INT NOT NULL AUTO_INCREMENT,
+  playlist_listener_id INT NOT NULL,
+  playlist_release_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  playlist_name VARCHAR(50) NOT NULL,
+  PRIMARY KEY (playlist_id),
+>>>>>>> Stashed changes
 
+  CONSTRAINT playlist_listener_id_constraint
+    FOREIGN KEY (playlist_listener_id)
+    REFERENCES Online_Music_Library.listener (listener_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `Online_Music_Library`.`playlist_song`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Online_Music_Library.playlist (
-  playlist_id INT NOT NULL AUTO_INCREMENT,
-  playlist_listener_id INT NOT NULL,
-  playlist_name VARCHAR(50) NOT NULL,
-  PRIMARY KEY (playlist_id)
-)
+CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`playlist_song` (
+  `playlist_song_playlist_id` INT NOT NULL,
+  `playlist_song_track_id` INT NOT NULL,
+
+  PRIMARY KEY (`playlist_song_playlist_id`, `playlist_song_track_id`),
+
+  CONSTRAINT `playlist_song_playlist_id_constraint`
+    FOREIGN KEY (`playlist_song_playlist_id`)
+    REFERENCES `Online_Music_Library`.`playlist` (`playlist_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    
+  CONSTRAINT `playlist_song_track_id_constraint`
+    FOREIGN KEY (`playlist_song_track_id`)
+    REFERENCES `Online_Music_Library`.`track` (`track_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
-ALTER TABLE Online_Music_Library.playlist
-ADD CONSTRAINT playlist_playlist_listener_constraint
-  FOREIGN KEY (playlist_listener_id)
-  REFERENCES Online_Music_Library.listener (listener_id)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
+
+
+  
 -- -----------------------------------------------------
 -- Table `Online_Music_Library`.`album_song`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`album_song` (
   `album_song_album_id` INT NOT NULL,
   `album_song_track_id` INT NOT NULL,
-  `album_song_lyrics` TEXT(5000) NULL,
+
   PRIMARY KEY (`album_song_album_id`, `album_song_track_id`),
   INDEX `track_id_idx` (`album_song_track_id` ASC) VISIBLE,
+
   CONSTRAINT `album_song_album_id_constraint`
     FOREIGN KEY (`album_song_album_id`)
     REFERENCES `Online_Music_Library`.`album` (`album_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `album_song_track_id_constraint`
     FOREIGN KEY (`album_song_track_id`)
     REFERENCES `Online_Music_Library`.`track` (`track_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
+
+
 
 
 -- -----------------------------------------------------
@@ -227,45 +255,66 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`track_like` (
   `track_like_listener_id` INT NOT NULL,
   `track_like_track_id` INT NOT NULL,
-  `track_like_date` DATE NOT NULL,
+  `track_like_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`track_like_listener_id`, `track_like_track_id`),
   INDEX `track_id_idx` (`track_like_track_id` ASC) VISIBLE,
   INDEX `listener_id_idx` (`track_like_listener_id` ASC) VISIBLE,
   CONSTRAINT `track_like_track_id_constraint`
     FOREIGN KEY (`track_like_track_id`)
     REFERENCES `Online_Music_Library`.`track` (`track_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `track_like_listener_id_constraint`
     FOREIGN KEY (`track_like_listener_id`)
     REFERENCES `Online_Music_Library`.`listener` (`listener_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
--- -----------------------------------------------------
+-- ----------------------------------------------------- Might add back later
 -- Table `Online_Music_Library`.`track_comment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`track_comment` (
-  `track_comment_id` INT NOT NULL AUTO_INCREMENT,
-  `track_comment_listener_id` INT NOT NULL,
-  `track_comment_track_id` INT NOT NULL,
-  `track_comment_body` TEXT NOT NULL,
-  PRIMARY KEY (`track_comment_id`, `track_comment_listener_id`, `track_comment_track_id`),
-  INDEX `track_id_idx` (`track_comment_track_id` ASC) VISIBLE,
-  INDEX `listener_id_idx` (`track_comment_listener_id` ASC) VISIBLE,
-  CONSTRAINT `track_comment_track_id_constraint`
-    FOREIGN KEY (`track_comment_track_id`)
-    REFERENCES `Online_Music_Library`.`track` (`track_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `track_comment_listener_id_constraint`
-    FOREIGN KEY (`track_comment_listener_id`)
-    REFERENCES `Online_Music_Library`.`listener` (`listener_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- TABLE IF NOT EXISTS `Online_Music_Library`.`track_comment` (
+--  `track_comment_id` INT NOT NULL AUTO_INCREMENT,
+--  `track_comment_listener_id` INT NOT NULL,
+--  `track_comment_track_id` INT NOT NULL,
+--  `track_comment_body` TEXT NOT NULL,
+--  PRIMARY KEY (`track_comment_id`, `track_comment_listener_id`, `track_comment_track_id`),
+--  INDEX `track_id_idx` (`track_comment_track_id` ASC) VISIBLE,
+--  INDEX `listener_id_idx` (`track_comment_listener_id` ASC) VISIBLE,
+--  CONSTRAINT `track_comment_track_id_constraint`
+--    FOREIGN KEY (`track_comment_track_id`)
+--    REFERENCES `Online_Music_Library`.`track` (`track_id`)
+--    ON DELETE NO ACTION
+--    ON UPDATE NO ACTION,
+--  CONSTRAINT `track_comment_listener_id_constraint`
+--    FOREIGN KEY (`track_comment_listener_id`)
+--    REFERENCES `Online_Music_Library`.`listener` (`listener_id`)
+--    ON DELETE NO ACTION
+--    ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table Online_Music_Library.playlist_like
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Online_Music_Library.playlist_like (
+  playlist_like_playlist_id INT NOT NULL,
+  playlist_like_listner_id INT NOT NULL,
+  playlist_like_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  
+  PRIMARY KEY (playlist_like_playlist_id, playlist_like_listner_id),
+
+  CONSTRAINT playlist_like_playlist_id_constraint
+    FOREIGN KEY (playlist_like_playlist_id)
+    REFERENCES Online_Music_Library.playlist (playlist_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT playlist_like_listener_id_constraint
+    FOREIGN KEY (playlist_like_listner_id)
+    REFERENCES Online_Music_Library.listener (listener_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `Online_Music_Library`.`listen_to`
@@ -322,32 +371,32 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `Online_Music_Library`.`complaint`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`complaint` (
-  `complaint_id` INT NOT NULL AUTO_INCREMENT,
-  `complaint_person_id` INT NOT NULL,
-  `addressed` TINYINT(1) NOT NULL,
-  `complaint_employee_id` INT NOT NULL,
-  `complaint_created` DATE NOT NULL,
-  `complaint_summary` TEXT(5000) NULL,
-  `complaint_documentation` BLOB(500) NULL,
-  `complaint_addressed` TINYINT NOT NULL,
-  `complaint_when_resolved` DATE NULL,
-  `complaintcol` VARCHAR(45) NULL,
-  PRIMARY KEY (`complaint_id`, `complaint_person_id`, `complaint_employee_id`),
-  UNIQUE INDEX `complaint_id_UNIQUE` (`complaint_id` ASC) VISIBLE,
-  INDEX `person_id_idx` (`complaint_person_id` ASC) VISIBLE,
-  INDEX `employee_id_idx` (`complaint_employee_id` ASC) VISIBLE,
-  CONSTRAINT `complaint_person_id_constraint`
-    FOREIGN KEY (`complaint_person_id`)
-    REFERENCES `Online_Music_Library`.`person` (`person_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `complaint_employee_id_constraint`
-    FOREIGN KEY (`complaint_employee_id`)
-    REFERENCES `Online_Music_Library`.`employee` (`employee_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`complaint` (
+--  `complaint_id` INT NOT NULL AUTO_INCREMENT,
+--  `complaint_person_id` INT NOT NULL,
+--  `addressed` TINYINT(1) NOT NULL,
+--  `complaint_employee_id` INT NOT NULL,
+--  `complaint_created` DATE NOT NULL,
+--  `complaint_summary` TEXT(5000) NULL,
+--  `complaint_documentation` BLOB(500) NULL,
+--  `complaint_addressed` TINYINT NOT NULL,
+--  `complaint_when_resolved` DATE NULL,
+--  `complaintcol` VARCHAR(45) NULL,
+--  PRIMARY KEY (`complaint_id`, `complaint_person_id`, `complaint_employee_id`),
+--  UNIQUE INDEX `complaint_id_UNIQUE` (`complaint_id` ASC) VISIBLE,
+--  INDEX `person_id_idx` (`complaint_person_id` ASC) VISIBLE,
+--  INDEX `employee_id_idx` (`complaint_employee_id` ASC) VISIBLE,
+--  CONSTRAINT `complaint_person_id_constraint`
+--    FOREIGN KEY (`complaint_person_id`)
+--    REFERENCES `Online_Music_Library`.`person` (`person_id`)
+--    ON DELETE NO ACTION
+--   ON UPDATE NO ACTION,
+--  CONSTRAINT `complaint_employee_id_constraint`
+--    FOREIGN KEY (`complaint_employee_id`)
+--    REFERENCES `Online_Music_Library`.`employee` (`employee_id`)
+--    ON DELETE NO ACTION
+--    ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -413,19 +462,22 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`album_like` (
   `album_like_album_id` INT NOT NULL,
   `album_like_listner_id` INT NOT NULL,
-  `album_like_date` DATE NOT NULL,
+  `album_like_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  
   PRIMARY KEY (`album_like_album_id`, `album_like_listner_id`),
+
   INDEX `listener_id_idx` (`album_like_listner_id` ASC) VISIBLE,
+
   CONSTRAINT `album_like_album_id_constraint`
     FOREIGN KEY (`album_like_album_id`)
     REFERENCES `Online_Music_Library`.`album` (`album_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `album_like_listener_id_constraint`
     FOREIGN KEY (`album_like_listner_id`)
     REFERENCES `Online_Music_Library`.`listener` (`listener_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -435,47 +487,22 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`artist_like` (
   `artist_like_artist_id` INT NOT NULL,
   `artist_like_listener_id` INT NOT NULL,
-  `artist_like_date` DATE NOT NULL,
+  `artist_like_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
   PRIMARY KEY (`artist_like_artist_id`, `artist_like_listener_id`),
-  INDEX `listener_id_idx` (`artist_like_listener_id` ASC) VISIBLE,
+  
   CONSTRAINT `altist_like_artist_id_constraint`
     FOREIGN KEY (`artist_like_artist_id`)
     REFERENCES `Online_Music_Library`.`artist` (`artist_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `artist_like_listener_id_constraint`
     FOREIGN KEY (`artist_like_listener_id`)
     REFERENCES `Online_Music_Library`.`listener` (`listener_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `Online_Music_Library`.`user`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`user` (
-  `username` VARCHAR(16) NOT NULL,
-  `email` VARCHAR(255) NULL,
-  `password` VARCHAR(32) NOT NULL,
-  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);
-
-
--- -----------------------------------------------------
--- Table `Online_Music_Library`.`timestamps`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`timestamps` (
-  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` TIMESTAMP NULL);
-
-
--- -----------------------------------------------------
--- Table `Online_Music_Library`.`category`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`category` (
-  `category_id` INT NOT NULL,
-  `name` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`category_id`));
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
