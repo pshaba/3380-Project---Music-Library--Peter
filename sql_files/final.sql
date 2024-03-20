@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`album` (
   `album_cover_art` BLOB NULL,
   `album_genre` INT NOT NULL,
   PRIMARY KEY (`album_id`),
-  INDEX `artist_listener_id_idx` (`album_primary_artist_id` ASC) VISIBLE,
+  
   CONSTRAINT `album_artist_listener_id_constraint`
     FOREIGN KEY (`album_primary_artist_id`)
     REFERENCES `Online_Music_Library`.`artist` (`artist_id`)
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`collaborator` (
   `collaborator_artist_id` INT NOT NULL,
   `collaborator_role` SMALLINT NULL,
   PRIMARY KEY (`collaborator_track_id`, `collaborator_artist_id`),
-  INDEX `artist_id_idx` (`collaborator_artist_id` ASC) VISIBLE,
+
   CONSTRAINT `collaborator_track_id_constraint`
     FOREIGN KEY (`collaborator_track_id`)
     REFERENCES `Online_Music_Library`.`track` (`track_id`)
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`playlist` (
   `playlist_listener_id` INT NOT NULL,
   `playlist_name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`playlist_id`),
-  INDEX `listener_id_idx` (`playlist_listener_id` ASC) VISIBLE,
+
   UNIQUE INDEX `playlist_id_UNIQUE` (`playlist_id` ASC) VISIBLE,
   CONSTRAINT `playlist_listener_id_constraint`
     FOREIGN KEY (`playlist_listener_id`)
@@ -229,8 +229,7 @@ CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`track_like` (
   `track_like_track_id` INT NOT NULL,
   `track_like_date` DATE NOT NULL,
   PRIMARY KEY (`track_like_listener_id`, `track_like_track_id`),
-  INDEX `track_id_idx` (`track_like_track_id` ASC) VISIBLE,
-  INDEX `listener_id_idx` (`track_like_listener_id` ASC) VISIBLE,
+
   CONSTRAINT `track_like_track_id_constraint`
     FOREIGN KEY (`track_like_track_id`)
     REFERENCES `Online_Music_Library`.`track` (`track_id`)
