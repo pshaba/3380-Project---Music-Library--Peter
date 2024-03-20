@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS Online_Music_Library.playlist_like (
     REFERENCES Online_Music_Library.playlist (playlist_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
+    
   CONSTRAINT playlist_like_listener_id_constraint
     FOREIGN KEY (playlist_like_listner_id)
     REFERENCES Online_Music_Library.listener (listener_id)
