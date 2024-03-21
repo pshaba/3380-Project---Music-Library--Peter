@@ -9,9 +9,9 @@ import Account from './routes/accountsPage';
 import Nav from './routes/Nav';
 import DebugDatabase from './routes/debugDatabasePage';
 //import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import ArtistPage from "./routes/artistPage/artistPage"; // change path
+import ArtistPage from "./routes/artistPage"; // change path
 import ArtistsPage from './routes/artistsPage';
-import Album from './routes/albumPage/albumPage';
+import Album from './routes/albumPage';
 import Albums from './routes/albumsPage';
 
 export default function App() {
@@ -41,8 +41,6 @@ export default function App() {
           
         </Routes>
     </div>
-    </div>
-
   );
 }
 

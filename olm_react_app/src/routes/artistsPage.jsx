@@ -4,7 +4,7 @@ import React, { useEffect, UseState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import ArtistPage from "./artistPage/artistPage"; // to search by id
+import ArtistPage from "./artistPage"; // to search by id
 
 const ArtistsPage = () => {
 
