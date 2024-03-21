@@ -42,6 +42,7 @@ export default function App() {
         </Routes>
       </main>
     </div>
+    </div>
 
     </QueryClientProvider>
 
