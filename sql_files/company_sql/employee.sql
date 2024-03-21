@@ -11,12 +11,13 @@ CREATE TABLE IF NOT EXISTS Online_Music_Library.employee (
   employee_hire_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   employee_termination_date TIMESTAMP NULL DEFAULT NULL,
   employee_manager_id INT NULL,
-  
+
   PRIMARY KEY (employee_id),
 
   CONSTRAINT employee_department_id_constraint
     FOREIGN KEY (employee_department)
     REFERENCES Online_Music_Library.department (department_id)
+
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   
@@ -25,4 +26,5 @@ CREATE TABLE IF NOT EXISTS Online_Music_Library.employee (
     REFERENCES Online_Music_Library.employee (employee_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+
 ENGINE = InnoDB;

@@ -13,4 +13,5 @@ CREATE TABLE IF NOT EXISTS Online_Music_Library.department (
     REFERENCES Online_Music_Library.employee (employee_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+
 ENGINE = InnoDB;

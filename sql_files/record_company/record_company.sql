@@ -1,5 +1,5 @@
 -- -----------------------------------------------------
--- Table Online_Music_Library.record_company
+-- Table `Online_Music_Library`.`record_company`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Online_Music_Library.record_company (
   record_company_id INT NOT NULL AUTO_INCREMENT,

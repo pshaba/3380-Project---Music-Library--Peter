@@ -170,24 +170,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `Online_Music_Library`.`playlist`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Online_Music_Library`.`playlist` (
-  `playlist_id` INT NOT NULL AUTO_INCREMENT,
-  `playlist_listener_id` INT NOT NULL,
-  `playlist_name` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`playlist_id`),
-
-  UNIQUE INDEX `playlist_id_UNIQUE` (`playlist_id` ASC) VISIBLE,
-  CONSTRAINT `playlist_listener_id_constraint`
-    FOREIGN KEY (`playlist_listener_id`)
-    REFERENCES `Online_Music_Library`.`listener` (`listener_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS Online_Music_Library.playlist (
   playlist_id INT NOT NULL AUTO_INCREMENT,
   playlist_listener_id INT NOT NULL,
   playlist_release_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   playlist_name VARCHAR(50) NOT NULL,
+  
   PRIMARY KEY (playlist_id),
 
   CONSTRAINT playlist_listener_id_constraint
