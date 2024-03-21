@@ -1,8 +1,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-
 import Root from './routes/Root';
-import Navbar from './routes/Navbar';
+import Home from './routes/Home';
+import Recents from './routes/Recents';
+import Library from './routes/library';
+//import Navbar from './routes/Navbar';
+import Nav from './routes/Nav';
 import DebugDatabase from './routes/DebugDatabase';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Artist from "./routes/artistPage/artistPage";
@@ -23,9 +26,25 @@ export default function App() {
         <Route path ="/Artist/:id" element={<Artist />} />
         <Route path ="/Album/:id" element={<Album />} />
       </Routes>
+
     
+      <div className='app'>
+      <header className="App-header">{/*changing the Navbar to my Navbar... */}
+          <Nav />
+      </header>
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/recents" element={<Recents />} />
+          <Route path="/library" element={<Library />} />
+          <Route path="/debug-database/*" element={<DebugDatabase />} />
+          
+        </Routes>
+      </main>
     </div>
+
     </QueryClientProvider>
+
   );
 }
 
