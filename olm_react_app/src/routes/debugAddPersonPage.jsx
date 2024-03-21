@@ -25,7 +25,7 @@ const DebugAddPerson = () => {
     const handleClick = async e => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/persons", person);
+            await axios.post("http://localhost:8080/debug_person/add_person", person);
 
         } catch (err) {
             console.log(err);
@@ -49,4 +49,4 @@ const DebugAddPerson = () => {
     );
 };
 
-export default DebugAddPerson;
+export default DebugAddPerson; 

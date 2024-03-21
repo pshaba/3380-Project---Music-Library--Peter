@@ -5,7 +5,6 @@ function Account(){
         <section>
             <p>Hello Welcome to the Account page</p>
         </section>
-
     );
 }
 

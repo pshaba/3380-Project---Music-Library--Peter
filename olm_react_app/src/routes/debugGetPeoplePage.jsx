@@ -3,14 +3,14 @@ import axios from "axios";
 
 import "../styles/DebugFetchPerson.css";
 
-const DebugFetchPerson = () => {
+const DebugGetPeople = () => {
 
     const [person, setPerson] = React.useState([]);
 
     useEffect(() => {
         const fetchAllPerson = async () => {
             try {
-                const res = await axios.get("http://localhost:8080/persons");
+                const res = await axios.get("http://localhost:8080/debug_person/get_people");
                 setPerson(res.data);
             } catch (error) {
                 console.error(error);
@@ -35,4 +35,4 @@ const DebugFetchPerson = () => {
     );
 }
 
-export default DebugFetchPerson;
+export default DebugGetPeople;

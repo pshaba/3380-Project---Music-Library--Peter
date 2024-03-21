@@ -21,3 +21,7 @@ ENGINE = InnoDB;
 
 -- Artist: inherits artist_id from listener_id, 1:1 relationship
 
+-- add dummy data
+--INSERT INTO Online_Music_Library.listener (listener_id, listener_username, listener_is_artist, listener_online_status) 
+--VALUES (1, 'user1', 1, 1),
+--       (2, 'user2', 1, 1);

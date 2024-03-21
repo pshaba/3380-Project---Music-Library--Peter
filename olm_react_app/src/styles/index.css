@@ -17,9 +17,9 @@ html, body {
 
 body {
     display: flex;
-    background-color: #04192E;
+    background-color: #b3b3b3;
     flex-direction: column;
     font-family: 'Helvetica', sans-serif;
     font-size: 16px;
-    color : #13A813;
+    color : #060606;
 }

@@ -1,6 +1,6 @@
 import React from 'react'; // ES6 js
 import {Link} from 'react-router-dom'; //for the link when needed
-import './Nav.css'; // Nav styling file
+import '../styles/Nav.css'; // Nav styling file
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; //for the user account icon and notifications icon
 import { faUser, faBell } from '@fortawesome/free-solid-svg-icons'; //for the user account icon and notifications icon
 //import logo from './houston_cougars_logo_secondary_20032603.png';
