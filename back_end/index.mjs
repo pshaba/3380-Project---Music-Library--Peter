@@ -17,20 +17,22 @@ const app = express(); // defines express app for handling requests
 // Middleware for handeling JSON data and allowing database requests
 
 // Origins allowed to make requests to the server, add production later
-const allowedOrigins = ['http://localhost:3000'
-                      /*'Production_URL.com',*/];
-const corsOptions = (req, callback) => {
-    let corsOptions;
-    if (allowedOrigins.includes(req.header('Origin')) !== -1) {
-        corsOptions = { origin: true /*, credentials: true*/ };
-    } else {
-        corsOptions = { origin: false /*, credentials: true*/ };
-    }
-    callback(null, corsOptions);
-}
+//const allowedOrigins = ['http://localhost:3000'
+                      /*'Production_URL.com',*///];
+
+
+//const corsOptions = (req, callback) => {
+//    let corsOptions;
+//    if (allowedOrigins.includes(req.header('Origin')) !== -1) {
+//        corsOptions = { origin: true /*, credentials: true*/ };
+//    } else {
+//        corsOptions = { origin: false /*, credentials: true*/ };
+//    }
+//    callback(null, corsOptions);
+//};
 
 // Configure requests with allowed origins and credentials
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json());
 
