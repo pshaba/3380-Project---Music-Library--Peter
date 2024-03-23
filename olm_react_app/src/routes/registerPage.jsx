@@ -1,20 +1,17 @@
 import React from 'react'
-import {useRef, useState, useEffect} from 'react';
-import { faCheck, faTime, faInfoCircle} from "@fortawesome/free-solid-svg-icons"
-
-import { FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-
+import { useRef, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import './CreateAccount.css'
 
-import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+
+import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime"; // weird packages? 
 import { Fragment as _Fragment } from "react/jsx-dev-runtime";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(?:gmail\.com|ymail\.com|cougarnet\.uh\.edu)$/i;
-const CREATEACCOUNT_URL = '/register';
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(?:gmail\.com|cougarnet\.uh\.edu|uh\.edu)$/;
+
 
 
 const CreateAccount = () => {
@@ -86,17 +83,17 @@ const CreateAccount = () => {
         }
         
         try {
-            const response = await axios.post(CREATEACCOUNT_URL, {
+            const response = await axios.post("http://localhost:8080/register", {
                 first_name: firstName,
+                middle_initial: middleInitial.toUpperCase(),
                 last_name: lastName,
-                middle_initial: middleInitial,
-                username: user,
+                birthdate: birthdate,
+                email: email.toLowerCase(),
                 password: pwd,
-                email: email,
-                birthdate: birthdate
+                username: user
             }, {
                 headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
+                withCredentials: false
             });
             
             
@@ -129,11 +126,13 @@ const CreateAccount = () => {
 
     return (
         <div className="create-account-container">
+            <button onClick={() => console.log({ validName, validPwd, validMatch, validBirthdate })
+}>debug</button>
             {success ? (
                 <section>
                     <h1>Success!</h1>
                     <p>
-                        <a href="#">Sign In</a>
+                        <Link to="/login">Login</Link>
                     </p>
                 </section>
             ) : (
@@ -246,7 +245,7 @@ const CreateAccount = () => {
                             aria-describedby="emailnote"
                         />
                         <p id="emailnote" className={!EMAIL_REGEX.test(email) ? "instructions" : "offscreen"}>
-                            Email format must be valid and end with @gmail.com, @ymail.com, or @cougarnet.uh.edu
+                            Email format must be valid and end with @gmail.com, @uh.edu, or @cougarnet.uh.edu
                         </p>
                         
                         <label htmlFor="birthdate">Birthdate:</label>
@@ -265,14 +264,7 @@ const CreateAccount = () => {
 
                         <button disabled={!validName || !validPwd || !validMatch || !validBirthdate ? true : false}>Sign Up</button>
                     </form>
-                    <p>
-                        Already registered?<br />
-                        <span className="line">
-                            {/*put router link here*/}
-                            <a href="#">Sign In</a>
-
-                        </span>
-                    </p>
+                    
                 </section>
             )}
         </div>

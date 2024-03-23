@@ -11,8 +11,7 @@ const DebugAddPerson = () => {
         last_name: "",
         email: "",
         birthdate: "",
-        password: "",
-        address: ""
+        password: ""
     });
 
     const handleChange = (e) => {
@@ -41,7 +40,6 @@ const DebugAddPerson = () => {
                 <input type="text" placeholder="Email" onChange={handleChange} name="email" />
                 <input type="date" onChange={handleChange} name="birthdate" />
                 <input type="text" placeholder="Password" onChange={handleChange} name="password" />
-                <input type="text" placeholder="Address" onChange={handleChange} name="address" />
                 <button type="submit" onClick={handleClick}>Add Person</button>
             </form>
         </div>

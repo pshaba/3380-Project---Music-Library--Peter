@@ -7,14 +7,15 @@
 
 import mysql from "mysql";
 
-const db = mysql.createConnection({ // heavily consider using pooling solution for concurrent users
+var pool = mysql.createPool({
+    connectionLimit: 10,
     host: "localhost",
     user: "root",
     port: 3306,
     password: "X9f3ph$q",
     database: "Online_Music_Library"
-
 });
 
-export default db;
+
+export default pool;
 

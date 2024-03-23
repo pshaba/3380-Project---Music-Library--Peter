@@ -1,32 +1,61 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    
-    return(
-        <div className = 'd-flex justify-content-center align-items-center bg-primary vh-100'>
-            <div className = 'bg-white p-3 rounded w-45'>
-                <form action = "">
-                    <div className = 'mb-3'>
-                        <label htmlFor = "email"><strong>Email</strong></label>
-                        <input type = "email" placeholder = 'Enter Email' className = 'form-control rounded-0'/>
-                    </div>
-                    <div className = 'mb-3'>
-                        <label htmlFor = "password"><strong>Password</strong></label>
-                        <input type = "password" placeholder = 'Enter Password' className = 'form-control rounded-0'/>
-                    </div>
-                    <button className = 'btn btn-success w-100 rounded-0'><strong>Log in</strong></button>
-                    <p>You agree to our terms and policies</p>
-                    <Link to = "/create-account"className = 'btn btn-default border w-100 bg-light rounded-0'>Create Account</Link>
-                    <p> </p>
-                    <button className = 'btn btn-default border w-100 bg-lightrounded-0'>Forgot Password</button>
+    const navigate = useNavigate();
 
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [errMsg, setErrMsg] = useState('');
 
-                </form>
-            </div>
+    const handleLogin = async (e) => {
+        e.preventDefault(); // Prevent form from refreshing the page
+        setErrMsg(''); // Reset error message
+
+        try {
+            const response = await axios.post("http://localhost:8080/login", {
+                username,
+                password
+            }/*, {
+                withCredentials: true // For handling cookies/session if your backend uses it
+            }*/);
+            
+            navigate('/'); // Redirect to home page
+        } 
+        catch (err) { // gets 401 code from backend
+            setErrMsg('Login failed. Please check your credentials.');
+            console.error('Login error:', err);
+        }
+    };
+
+    return (
+        <div>
+            <h2>Login</h2>
+            {errMsg && <p className="error">{errMsg}</p>}
+            <form onSubmit={handleLogin}>
+                <div>
+                    <label>Email:</label>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                <button onClick={handleLogin} type="submit">Login</button>
+            </form>
         </div>
     );
-}
+};
 
 export default Login;

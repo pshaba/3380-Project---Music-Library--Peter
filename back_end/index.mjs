@@ -3,27 +3,45 @@
 
 import express from "express"; 
 import cors from "cors";
+import bcrypt from "bcrypt";
+
 import artistRoute from "./routes/artist_route.mjs";
 import albumRoute from "./routes/album_route.mjs";
 import debugPersonRoute from "./routes/debug_person_route.mjs";
+import loginRoute from "./routes/login_route.mjs";
+import registerRoute from "./routes/register_route.mjs";
 
-//import findAlbumByArtistRoute from "./routes/FindAlbumByArtist.mjs";
-//import findByArtistRoutes from "./routes/findByArtist.mjs"
-
-
+// Create express app
 const app = express(); // defines express app for handling requests
 
 // Middleware for handeling JSON data and allowing database requests
-app.use(cors());
+
+// Origins allowed to make requests to the server, add production later
+const allowedOrigins = ['http://localhost:3000'
+                      /*'Production_URL.com',*/];
+const corsOptions = (req, callback) => {
+    let corsOptions;
+    if (allowedOrigins.includes(req.header('Origin')) !== -1) {
+        corsOptions = { origin: true /*, credentials: true*/ };
+    } else {
+        corsOptions = { origin: false /*, credentials: true*/ };
+    }
+    callback(null, corsOptions);
+}
+
+// Configure requests with allowed origins and credentials
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 
 app.use("/artists", artistRoute);
 app.use("/albums", albumRoute);
 app.use("/debug_person", debugPersonRoute);
+app.use("/login", loginRoute);
+app.use("/register", registerRoute);
 
-
-/*
+/* 
 Moving the below 
 app.get('/library', (req, LIBRARY page",
         "msg" : "This is my first page",

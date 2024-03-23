@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 //import Root from './routes/Root';
-import Home from './routes/Home';
+import Home from './routes/homePage';
 import Recents from './routes/Recents';
 import Library from './routes/library';
 import Account from './routes/accountsPage';
@@ -12,7 +12,10 @@ import DebugDatabase from './routes/debugDatabasePage';
 import ArtistPage from "./routes/artistPage"; // change path
 import ArtistsPage from './routes/artistsPage';
 import Album from './routes/albumPage';
-import Albums from './routes/albumsPage';
+import Albums from './routes/albumsListPage';
+import Register from './routes/registerPage';
+import Login from './routes/loginPage';
+
 
 export default function App() {
 
@@ -38,6 +41,9 @@ export default function App() {
           <Route path="/recents" element={<Recents />} />
           <Route path="/library" element={<Library />} />
           <Route path="/debug-database/*" element={<DebugDatabase />} />
+          <Route path="/register" element={<Register />} /> 
+          <Route path="/login" element={<Login />} />
+
           
         </Routes>
     </div>
