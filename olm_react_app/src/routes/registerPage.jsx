@@ -68,7 +68,7 @@ const CreateAccount = () => {
         e.preventDefault();
 
         // Validate middle initial to be a single letter
-        const middleInitialRegex = /^[a-zA-Z]$/;
+        const middleInitialRegex = /^([A-Z]|)$/;
         if (!middleInitialRegex.test(middleInitial)) {
             setErrMsg("Middle initial must be a single letter of the alphabet.");
             return;
@@ -84,9 +84,9 @@ const CreateAccount = () => {
         
         try {
             const response = await axios.post("http://localhost:8080/register", {
-                first_name: firstName,
+                first_name: firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase(),
                 middle_initial: middleInitial.toUpperCase(),
-                last_name: lastName,
+                last_name: lastName.charAt(0).toUpperCase() + lastName.slice(1).toLowerCase(),
                 birthdate: birthdate,
                 email: email.toLowerCase(),
                 password: pwd,

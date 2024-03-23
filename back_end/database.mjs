@@ -5,7 +5,7 @@
 // This is a file that will be imported into the server file
 
 
-import mysql from "mysql";
+import mysql from "mysql2";
 
 var pool = mysql.createPool({
     connectionLimit: 10,

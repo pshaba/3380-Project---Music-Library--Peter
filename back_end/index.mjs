@@ -3,13 +3,16 @@
 
 import express from "express"; 
 import cors from "cors";
-import bcrypt from "bcrypt";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+
 
 import artistRoute from "./routes/artist_route.mjs";
 import albumRoute from "./routes/album_route.mjs";
 import debugPersonRoute from "./routes/debug_person_route.mjs";
 import loginRoute from "./routes/login_route.mjs";
 import registerRoute from "./routes/register_route.mjs";
+import userAuthRoute from "./routes/user_auth_route.mjs";
 
 // Create express app
 const app = express(); // defines express app for handling requests
@@ -21,27 +24,39 @@ const app = express(); // defines express app for handling requests
                       /*'Production_URL.com',*///];
 
 
-//const corsOptions = (req, callback) => {
-//    let corsOptions;
-//    if (allowedOrigins.includes(req.header('Origin')) !== -1) {
-//        corsOptions = { origin: true /*, credentials: true*/ };
-//    } else {
-//        corsOptions = { origin: false /*, credentials: true*/ };
-//    }
-//    callback(null, corsOptions);
-//};
+// Customized CORS - Similar to the manual approach
+const corsOptions = {
+    origin: 'http://localhost:3000', // This should be the URL of the front-end app
+    credentials: true, // This is important for cookies, authorization headers with HTTPS 
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'x-access-token', 'Authorization'],
+};
+app.use(cors(corsOptions));
 
-// Configure requests with allowed origins and credentials
-app.use(cors());
+app.use(express.json()); // For parsing application/json
+app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
+app.use(cookieParser()); // Use cookie-parser middleware
 
-app.use(express.json());
+// Session middleware, handles session data / cookies
+app.use(session({
+    key: "user_id",
+    secret: "c@01M24MWUhBCNd&!sNS84Chc",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000 * 2, // 2 hours
+        SameSite: "Lax",
+    }
+}));
 
+// Routes
 
 app.use("/artists", artistRoute);
 app.use("/albums", albumRoute);
 app.use("/debug_person", debugPersonRoute);
 app.use("/login", loginRoute);
 app.use("/register", registerRoute);
+app.use("/user_auth", userAuthRoute);
 
 /* 
 Moving the below 

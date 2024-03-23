@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS Online_Music_Library.person (
   person_birthdate	 		DATE 		NOT NULL,
   person_hashed_password		VARCHAR(100) 	NOT NULL,
 --  person_address 			VARCHAR(45) 	NULL, seems useless upon further thought
-	
+	person_role       VARCHAR(1) 		NOT NULL,
     PRIMARY KEY (person_id))
 ENGINE = InnoDB;
 

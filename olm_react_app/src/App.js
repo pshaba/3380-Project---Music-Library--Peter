@@ -1,14 +1,14 @@
-import React from 'react';
+import { React, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-//import Root from './routes/Root';
+import Axios from 'axios';
+
+// routes
 import Home from './routes/homePage';
 import Recents from './routes/Recents';
 import Library from './routes/library';
 import Account from './routes/accountsPage';
-//import Navbar from './routes/Navbar';
 import Nav from './routes/Nav';
 import DebugDatabase from './routes/debugDatabasePage';
-//import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ArtistPage from "./routes/artistPage"; // change path
 import ArtistsPage from './routes/artistsPage';
 import Album from './routes/albumPage';
@@ -16,17 +16,16 @@ import Albums from './routes/albumsListPage';
 import Register from './routes/registerPage';
 import Login from './routes/loginPage';
 
+Axios.defaults.withCredentials = true;
 
 export default function App() {
 
   //const queryClient = new QueryClient();
+  
 
   return (
     <div className='app'>
-      
-
-
-    
+         
       <header className="App-header">{/*changing the Navbar to my Navbar... */}
           <Nav />
       </header>
